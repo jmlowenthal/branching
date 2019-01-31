@@ -63,6 +63,6 @@ int main() {
 	TwoBitSaturating two_bit_saturating;
 	printf (
 		"2-bit saturating counter = %.2f%%\n",
-		two_bit_saturating.test(data) / data.size()
+		two_bit_saturating.test(data) / data.size() * 100.0f
 	);
 }
