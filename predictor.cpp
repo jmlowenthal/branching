@@ -7,6 +7,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <vector>
+#include <array>
 
 // Maximum state allowed is 128Kbits
 
@@ -30,18 +31,12 @@ public:
 	}
 };
 
-#define TABLE_SIZE (1024*64)  // 64K entries * 2-bits each = 128Kbits
-
 class TwoBitSaturating : public PredictorBase {
 private:
-	char *bht;
+	// 64K entries * 2-bits = 128Kbits
+	static const unsigned int TABLE_SIZE = 1024 * 64;
+	std::array<char, TABLE_SIZE> bht = {0};
 public:
-	TwoBitSaturating() {
-		bht = (char*)malloc(TABLE_SIZE);
-		for (unsigned int i = 0; i < TABLE_SIZE; i++) {
-			bht[i] = 0;
-		}
-	}
 	virtual bool predict(unsigned int address) {
 		unsigned int entry = (address / 2) % TABLE_SIZE;
 		if ((entry < 0) || (entry > TABLE_SIZE)) {
